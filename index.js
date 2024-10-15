@@ -9,7 +9,7 @@ const cors = require("cors"); // Import the cors package
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Function to get the directory name
 //const __dirname = dirname(fileURLToPath(import.meta.url));

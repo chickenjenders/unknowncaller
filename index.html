@@ -9,7 +9,6 @@
 </head>
 
 <body>
-  body>
   <img src="phone.png" alt="Vintage Cord Phone"
     style="width: auto; height: auto; margin-bottom: 10px; margin-left: -100px;">
   <div class="phone">
@@ -57,9 +56,12 @@
         const ringSound = new Audio('ringing.mp3'); // Add a ringing sound file
         ringSound.play();
 
+        // Determine the base URL based on the environment
+        const baseURL = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://unknowncaller.onrender.com';
+
         // Placeholder for API call
         console.log('Call connected!');
-        const gptResponse = await fetch('http://localhost:3000/gpt', {
+        const gptResponse = await fetch(`${baseURL}/gpt`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -74,7 +76,7 @@
         const speechBubble = document.getElementById("speechBubble");
         speechBubble.innerText = message; // Set the message text
         speechBubble.style.display = "block"; // Show the speech bubble
-        const ttsResponse = await fetch('http://localhost:3000/tts', {
+        const ttsResponse = await fetch(`${baseURL}/tts`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
