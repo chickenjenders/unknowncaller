@@ -68,6 +68,7 @@
             number: currentNumber,
           }),
         });
+        ringSound.pause(); // Stop the ringing sound
         const gptJson = await gptResponse.json();
         const message = gptJson.choices[0].message.content;
         const speechBubble = document.getElementById("speechBubble");
@@ -82,7 +83,7 @@
             message: message,
           }),
         });
-        ringSound.pause(); // Stop the ringing sound
+
         const audioBlob = await ttsResponse.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
 
