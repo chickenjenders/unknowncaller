@@ -1,9 +1,9 @@
-import express from "express";
-import { Buffer } from "node:buffer";
-import { join, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
-import dotenv from "dotenv";
-import cors from "cors"; // Import the cors package
+const express = require("express");
+const { Buffer } = require("node:buffer");
+const { join, dirname } = require("node:path");
+const { fileURLToPath } = require("node:url");
+const dotenv = require("dotenv");
+const cors = require("cors"); // Import the cors package
 
 // Load environment variables from .env file
 dotenv.config();
@@ -12,7 +12,7 @@ const app = express();
 const PORT = 3000;
 
 // Function to get the directory name
-const __dirname = dirname(fileURLToPath(import.meta.url));
+//const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Use the cors middleware
 app.use(cors());
