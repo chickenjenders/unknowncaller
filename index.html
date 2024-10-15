@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vintage Cord Phone</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  body>
+  <img src="phone.png" alt="Vintage Cord Phone"
+    style="width: auto; height: auto; margin-bottom: 10px; margin-left: -100px;">
+  <div class="phone">
+    <div class="screen" id="screen">_</div>
+    <div class="keypad">
+      <div class="key" onclick="addNumber(1)">1</div>
+      <div class="key" onclick="addNumber(2)">2</div>
+      <div class="key" onclick="addNumber(3)">3</div>
+      <div class="key" onclick="addNumber(4)">4</div>
+      <div class="key" onclick="addNumber(5)">5</div>
+      <div class="key" onclick="addNumber(6)">6</div>
+      <div class="key" onclick="addNumber(7)">7</div>
+      <div class="key" onclick="addNumber(8)">8</div>
+      <div class="key" onclick="addNumber(9)">9</div>
+      <div class="key" onclick="addNumber('*')">*</div>
+      <div class="key" onclick="addNumber(0)">0</div>
+      <div class="key" onclick="addNumber('#')">#</div>
+    </div>
+    <div class="handset" onclick="makeCall()">Make Call</div>
+
+  </div>
+  <div class="speech-bubble" id="speechBubble"></div>
+
+
+  <script>
+    let currentNumber = '';
+
+    function addNumber(num) {
+      if (currentNumber.length < 7) {
+        currentNumber += num;
+        updateScreen();
+      }
+    }
+
+    function updateScreen() {
+      document.getElementById('screen').innerText = currentNumber || '_';
+    }
+
+    async function makeCall() {
+      if (currentNumber.length === 7) {
+        console.log('Dialing:', currentNumber);
+        document.getElementById('screen').innerText = 'Dialing...';
+
+        // Simulate ringing sound (add an audio file for the ringing sound)
+        const ringSound = new Audio('ringing.mp3'); // Add a ringing sound file
+        ringSound.play();
+
+        // Placeholder for API call
+        console.log('Call connected!');
+        const gptResponse = await fetch('http://localhost:3000/gpt', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            number: currentNumber,
+          }),
+        });
+        const gptJson = await gptResponse.json();
+        const message = gptJson.choices[0].message.content;
+        const speechBubble = document.getElementById("speechBubble");
+        speechBubble.innerText = message; // Set the message text
+        speechBubble.style.display = "block"; // Show the speech bubble
+        const ttsResponse = await fetch('http://localhost:3000/tts', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: message,
+          }),
+        });
+        ringSound.pause(); // Stop the ringing sound
+        const audioBlob = await ttsResponse.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+
+        // Create an Audio element
+        const audio = new Audio(audioUrl);
+
+        // Play the audio
+        await audio.play();
+        const hangupSound = new Audio('hangup.mp3');
+
+        // Clean up the URL object after the audio has played
+        audio.onended = () => {
+          URL.revokeObjectURL(audioUrl);
+          hangupSound.play(); // Play the hang-up sound after the message ends
+          hangupSound.onended = () => {
+            // Clear the screen after the hang-up sound has finished
+            currentNumber = ''; // Reset current number
+            updateScreen(); // Clear the display
+            speechBubble.style.display = 'none'; // Hide the speech bubble
+          };
+        };
+        // Wait 3 seconds for the "connecting" effect
+      } else {
+        alert('Please enter exactly 7 numbers before making a call.');
+      }
+    }
+  </script>
+</body>
+
+</html>

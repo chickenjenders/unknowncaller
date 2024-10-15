@@ -1,0 +1,115 @@
+body {
+  font-family: "Courier New", monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background: linear-gradient(135deg, #2c3e50, #000);
+  background-size: 400% 400%;
+  animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.phone {
+  position: absolute;
+  background-color: rgba(78, 78, 78, 0.1);
+  /* Adjust the last value for transparency */
+  padding: 20px;
+  width: 300px;
+  margin-top: 170px;
+  margin-left: 100px;
+}
+
+.screen {
+  background-color: #212121;
+  color: #33ff66;
+  border: 2px solid #2f4f4f;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+  text-shadow: 0 0 8px #33ff66;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.key {
+  background-color: #333;
+  border: 2px solid #555;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.key:hover {
+  background-color: #444;
+}
+
+.key:active {
+  transform: scale(0.95);
+}
+
+.handset {
+  background-color: #444;
+  border: 2px solid #666;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 20px;
+  text-align: center;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+}
+
+.handset:hover {
+  background-color: #555;
+}
+
+.handset:active {
+  transform: scale(0.95);
+}
+.speech-bubble {
+  position: absolute;
+  top: 100px; /* Adjust based on your layout */
+  left: 350px; /* Adjust position based on your design */
+  background-color: #f1f1f1;
+  border: 2px solid #333;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 200px; /* Set a maximum width */
+  color: #333;
+  font-size: 16px; /* Adjust font size */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  display: none; /* Hide initially */
+}
+
+.speech-bubble::after {
+  content: "";
+  bottom: 100%; /* Position above the bubble */
+  left: 20px; /* Adjust this to center the arrow */
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #f1f1f1 transparent; /* Arrow pointing down */
+}
